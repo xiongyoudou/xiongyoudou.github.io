@@ -1,3 +1,10 @@
+---
+layout: post
+title: "关于使用CYLTabBarController未登陆时跳转到登陆界面"
+description: "处理CYLTabBarController不能调用代理方法的问题"
+tags: [CYLTabBarController,界面跳转]
+---
+
 #关于使用CYLTabBarController未登陆时跳转到登陆界面
 
 **CYLTabBarController**是开源的一款可快速集成的底部栏控制器，只需传入少许参数便可实现功能，并允许个性化自定义。
