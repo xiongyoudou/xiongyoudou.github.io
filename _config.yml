@@ -38,7 +38,7 @@ bing_verify:
 timezone:    America/New_York
 future:      true
 highlighter: rouge
-markdown:    rdiscount
+markdown:    kramdown
 gems:
   - jekyll-sitemap
   - jekyll-paginate
@@ -54,6 +54,7 @@ permalink:   /:categories/:title/
 paginate: 5
 
 kramdown:
+  input: GFM
   auto_ids: true
   footnote_nr: 1
   entity_output: as_char
