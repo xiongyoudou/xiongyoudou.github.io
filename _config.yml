@@ -54,7 +54,6 @@ permalink:   /:categories/:title/
 paginate: 5
 
 redcarpet:
-  input: GFM
   auto_ids: true
   footnote_nr: 1
   entity_output: as_char
