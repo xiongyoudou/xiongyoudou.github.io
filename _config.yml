@@ -10,7 +10,7 @@ locale                   : "ch"
 title                    : "百草园"
 title_separator          : "-"
 name                     : "熊有都"
-description              : "满园皆草，但自成天地"
+description              : "满园皆草，自成天地"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -77,10 +77,10 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Name"
+  name             : "熊有都"
   avatar           : "bio-photo.jpg"
   bio              : "I am an amazing person."
-  location         : "Somewhere"
+  location         : “ShenZhen China”
   email            :
   uri              :
   bitbucket        :
