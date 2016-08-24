@@ -6,7 +6,6 @@ tags:
 - essay
 - space
 ---
-##Amazon Alexa语音技术研究方案
 
 @(markdown笔记)
 
