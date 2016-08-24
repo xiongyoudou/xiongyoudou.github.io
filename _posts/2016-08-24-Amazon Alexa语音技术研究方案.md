@@ -1,10 +1,10 @@
 ---
 title: "Amazon Alexa语音技术研究方案"
 categories:
-- Essays
+- 方案研究
 tags:
-- essay
-- space
+- 方案研究
+- iOS
 ---
 
 @(markdown笔记)
@@ -14,7 +14,7 @@ tags:
 2. **Reach More Customers**：能够接触到通过Alexa语音服务驱动的所有设备
 3. **Build Quickly for Free**：使用AVS和ASK来构建自己的语音服务完全免费。可以用cloud-based service或者AWS Lambda，其中cloud-based service每月的前100万是免费的(is free for the first one million calls per month)。ASK is free to use. AWS Lambda is also free for the first one million calls per month, which can support skill hosting for most developers.
 
-###**Alexa Skills Kit**
+### **Alexa Skills Kit**
 ASK是一个包括**自主服务API**、**工具**、**文档**、**代码示例**的集合，利用它可以快速简单的让你为Alexa添加能力(to add skills to Alexa)。所有的代码都运行在云端，在用户设备上不需要安装任何东西。用户只需要简单的问一个问题或者下一个命令，就可在任何Alexa-enabled的设备上访问这些skills。
 ASK能够让你添加新的skills，然后通过提问和发出请求来访问这些skills。你可以建立哪些提供给用户各式各样的不同能力，比如：
 - 寻找特定问题的答案
@@ -23,18 +23,18 @@ ASK能够让你添加新的skills，然后通过提问和发出请求来访问�
 
 首先需要确定创建什么样的Skill，ASK支持创建两种不同类型的skills：自定义的skills和智能家居skills。
 
-###Smart Home Skill API
+### Smart Home Skill API
 该API是新加入到ASK中，让开发者能够添加新的能力到Alexa上。Alexa已经提供一系列的内嵌的智能家居能力(built-in smart home capabilities)。包括开关灯、控制温度等，用户可以通过提问已经发出请求的方式来访问这些功能。
 
-###Alexa Voice Service
+### Alexa Voice Service
 AVS是一个智能并且可扩展的云端服务，利用它可以添加强大的语音功能给任何连接了的产品上(adds voice-enabled experiences to any connected product)。利用Amazon Alexa app，用户在任何地方可以轻易的控制和管理它们的产品(products)。
 
-####Authorization
+#### Authorization
 若要访问AVS API，产品需要拥有一个access token，获取token有两种方式：
 - **远程授权**：通过 [网站](https://developer.amazon.com/public/solutions/alexa/alexa-voice-service/docs/authorizing-your-alexa-enabled-product-from-a-website)或者[移动app](https://developer.amazon.com/public/solutions/alexa/alexa-voice-service/docs/authorizing-your-alexa-enabled-product-from-an-android-or-ios-mobile-app)
 - **本地授权**：通过一个AVS-enabled的产品来授权，[相关地址](https://developer.amazon.com/public/solutions/alexa/alexa-voice-service/docs/authorizing-your-alexa-enabled-mobile-app)
 
-####传输协议
+#### 传输协议
 
 ##### [与AVS建立HTTP/2连接](https://developer.amazon.com/public/solutions/alexa/alexa-voice-service/docs/managing-an-http-2-connection)
 **关键术语**
