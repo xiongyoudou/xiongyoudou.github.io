@@ -1,9 +1,9 @@
 ---
 title: "Amazon Alexa语音技术研究方案"
 categories:
-- 方案研究
+- Essays
 tags:
-- 方案研究
+- essay
 - iOS
 ---
 
