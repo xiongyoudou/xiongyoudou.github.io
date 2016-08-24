@@ -6,11 +6,11 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-locale                   : “ch”
-title                    : “百草园”
+locale                   : "ch"
+title                    : "百草园"
 title_separator          : "-"
-name                     : “熊有都”
-description              : “满园都是草，但也自成一片天地”
+name                     : "熊有都"
+description              : "满园皆草，但自成天地"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
