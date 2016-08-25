@@ -81,15 +81,15 @@ author:
   avatar           : "bio-photo.jpg"
   bio              : "I am an amazing person."
   location         : "ShenZhen China"
-  email            :
-  uri              :
+  email            : "xiongyoudou@qq.com"
+  uri              : 
   bitbucket        :
   codepen          :
   dribbble         :
   flickr           :
   facebook         :
   foursquare       :
-  github           :
+  github           : "xiongyoudou"
   google_plus      :
   keybase          :
   instagram        :
@@ -97,7 +97,7 @@ author:
   linkedin         :
   pinterest        :
   soundcloud       :
-  stackoverflow    : # http://stackoverflow.com/users/123456/username
+  stackoverflow    : # http://stackoverflow.com/users/5357593/youdu-xiong
   steam            :
   tumblr           :
   twitter          :
@@ -105,6 +105,8 @@ author:
   weibo            :
   xing             :
   youtube          :
+  QQ               : "739060793"
+
 
 
 # Reading Files
