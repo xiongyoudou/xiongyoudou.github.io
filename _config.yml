@@ -6,7 +6,7 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-locale                   : "ch"
+locale                   : "zh-CN"
 title                    : "我的百草园"
 title_separator          : "-"
 name                     : "熊有都"
@@ -79,17 +79,17 @@ analytics:
 author:
   name             : "熊有都"
   avatar           : "bio-photo.jpg"
-  bio              : "走过路过，千万不要错过"
-  location         : "中国深圳"
-  email            : "xiongyoudou@qq.com"
-  uri              : 
+  bio              : "I am an amazing person."
+  location         : "ShenZhen China"
+  email            :
+  uri              :
   bitbucket        :
   codepen          :
   dribbble         :
   flickr           :
   facebook         :
   foursquare       :
-  github           : "xiongyoudou"
+  github           :
   google_plus      :
   keybase          :
   instagram        :
@@ -97,16 +97,14 @@ author:
   linkedin         :
   pinterest        :
   soundcloud       :
-  stackoverflow    : "5357593/youdu-xiong"
+  stackoverflow    : # http://stackoverflow.com/users/123456/username
   steam            :
   tumblr           :
-  twitter          : *twitter
+  twitter          :
   vine             :
   weibo            :
   xing             :
   youtube          :
-  QQ               : "739060793"
-
 
 
 # Reading Files
