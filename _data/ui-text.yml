@@ -59,7 +59,7 @@ zh: &DEFAULT_ZH
   toc_label                  : "此页面"
   ext_link_label             : "链接"
   less_than                  : "少于"
-  minute_read                : "分钟"
+  minute_read                : "分钟前阅读"
   share_on_label             : "分享"
   meta_label                 :
   tags_label                 : "标签:"
