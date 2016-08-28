@@ -80,16 +80,16 @@ author:
   name             : "熊有都"
   avatar           : "bio-photo.jpg"
   bio              : "I am an amazing person."
-  location         : "ShenZhen China"
-  email            :
-  uri              :
+  location         : "中国.深圳
+  email            : "xiongyoudou@qq.com"
+  uri              : 
   bitbucket        :
   codepen          :
   dribbble         :
   flickr           :
   facebook         :
   foursquare       :
-  github           :
+  github           : "https://github.com/xiongyoudou"
   google_plus      :
   keybase          :
   instagram        :
@@ -97,12 +97,12 @@ author:
   linkedin         :
   pinterest        :
   soundcloud       :
-  stackoverflow    : # http://stackoverflow.com/users/123456/username
+  stackoverflow    : "5357593/youdu-xiong"
   steam            :
   tumblr           :
   twitter          :
   vine             :
-  weibo            :
+  weibo            : 
   xing             :
   youtube          :
 
