@@ -58,7 +58,7 @@ zh: &DEFAULT_ZH
   breadcrumb_separator       : "/"
   toc_label                  : "此页面"
   ext_link_label             : "链接"
-  less_than                  : "少于"
+  less_than                  : "小于"
   minute_read                : "分钟之前"
   share_on_label             : "分享"
   meta_label                 :
