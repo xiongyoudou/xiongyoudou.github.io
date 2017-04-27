@@ -1,0 +1,525 @@
+---
+title: "Objective-C Style Guide"
+categories:
+  - Essays
+tags:
+  - essay
+  - space
+excerpt: "一篇转载自github大牛的关于Objective-C编写规范的文章"
+---
+
+<!DOCTYPE html><html><head><title>Introduction</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        
+                    
+
+<p><a href="https://github.com/NYTimes/objective-c-style-guide" target="_blank">https://github.com/NYTimes/objective-c-style-guide</a> <br>
+This style guide outlines the coding conventions of the iOS teams at The New York Times. We welcome your feedback in <a href="https://github.com/NYTimes/objective-c-style-guide/issues" target="_blank">issues</a> and <a href="https://github.com/NYTimes/objective-c-style-guide/pulls" target="_blank">pull requests</a>. Also, <a href="http://www.nytco.com/careers/" target="_blank">we’re hiring</a>.</p>
+
+<p>Thanks to all of <a href="https://github.com/NYTimes/objective-c-style-guide/graphs/contributors" target="_blank">our contributors</a>.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Here are some of the documents from Apple that informed the style guide. If something isn’t mentioned here, it’s probably covered in great detail in one of these:</p>
+
+<ul><li><a href="http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html" target="_blank">The Objective-C Programming Language</a></li>
+<li><a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CocoaFundamentals/Introduction/Introduction.html" target="_blank">Cocoa Fundamentals Guide</a></li>
+<li><a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html" target="_blank">Coding Guidelines for Cocoa</a></li>
+<li><a href="http://developer.apple.com/library/ios/#documentation/iphone/conceptual/iphoneosprogrammingguide/Introduction/Introduction.html" target="_blank">iOS App Programming Guide</a></li>
+</ul>
+
+<p>This style guide conforms to IETF’s <a href="http://tools.ietf.org/html/rfc2119" target="_blank">RFC 2119</a>. In particular, code which goes against the RECOMMENDED/SHOULD style is allowed, but should be carefully considered.</p>
+
+
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul><li><a href="#dot-notation-syntax">Dot Notation Syntax</a></li>
+<li><a href="#spacing">Spacing</a></li>
+<li><a href="#conditionals">Conditionals</a> <br>
+<ul>
+<li><a href="#ternary-operator">Ternary Operator</a></li></ul></li>
+<li><a href="#error-handling">Error handling</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#naming">Naming</a> <br>
+<ul>
+<li><a href="#categories">Categories</a></li></ul></li>
+<li><a href="#comments">Comments</a></li>
+<li><a href="#init-and-dealloc">Init &amp; Dealloc</a></li>
+<li><a href="#literals">Literals</a></li>
+<li><a href="#cgrect-functions">CGRect Functions</a></li>
+<li><a href="#constants">Constants</a></li>
+<li><a href="#enumerated-types">Enumerated Types</a></li>
+<li><a href="#bitmasks">Bitmasks</a></li>
+<li><a href="#private-properties">Private Properties</a></li>
+<li><a href="#image-naming">Image Naming</a></li>
+<li><a href="#booleans">Booleans</a></li>
+<li><a href="#singletons">Singletons</a></li>
+<li><a href="#imports">Imports</a></li>
+<li><a href="#protocols">Protocols</a></li>
+<li><a href="#xcode-project">Xcode Project</a></li>
+</ul>
+
+
+
+<h2 id="dot-notation-syntax">Dot Notation Syntax</h2>
+
+<p>Dot notation is RECOMMENDED over bracket notation for getting and setting properties.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">view<span class="hljs-variable">.backgroundColor</span> = [<span class="hljs-built_in">UIColor</span> orangeColor];<br>[<span class="hljs-built_in">UIApplication</span> sharedApplication]<span class="hljs-variable">.delegate</span>;<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">[view setBackgroundColor:[<span class="hljs-built_in">UIColor</span> orangeColor]];<br><span class="hljs-built_in">UIApplication</span><span class="hljs-variable">.sharedApplication</span><span class="hljs-variable">.delegate</span>;<br></code></pre>
+
+
+
+<h2 id="spacing">Spacing</h2>
+
+<ul><li>Indentation MUST use 4 spaces. Never indent with tabs. Be sure to set this preference in Xcode.</li>
+<li>Method braces and other braces (<code>if</code>/<code>else</code>/<code>switch</code>/<code>while</code> etc.) MUST open on the same line as the statement. Braces MUST close on a new line.</li>
+</ul>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">if</span> (user<span class="hljs-variable">.isHappy</span>) {<br>    <span class="hljs-comment">// Do something</span><br>}<br><span class="hljs-keyword">else</span> {<br>    <span class="hljs-comment">// Do something else</span><br>}<br></code></pre>
+
+<ul><li>There SHOULD be exactly one blank line between methods to aid in visual clarity and organization.</li>
+<li>Whitespace within methods MAY separate functionality, though this inclination often indicates an opportunity to split the method into several, smaller methods. In methods with long or verbose names, a single line of whitespace MAY be used to provide visual separation before the method’s body.</li>
+<li><code>@synthesize</code> and <code>@dynamic</code> MUST each be declared on new lines in the implementation.</li>
+</ul>
+
+
+
+<h2 id="conditionals">Conditionals</h2>
+
+<p>Conditional bodies MUST use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent <a href="https://github.com/NYTimes/objective-c-style-guide/issues/26#issuecomment-22074256" target="_blank">errors</a>. These errors include adding a second line and expecting it to be part of the if-statement. Another, <a href="http://programmers.stackexchange.com/a/16530" target="_blank">even more dangerous defect</a> can happen where the line “inside” the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">if</span> (!error) {<br>    <span class="hljs-keyword">return</span> success;<br>}<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">if</span> (!error)<br>    <span class="hljs-keyword">return</span> success;<br></code></pre>
+
+<p>or</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">if</span> (!error) <span class="hljs-keyword">return</span> success;<br></code></pre>
+
+
+
+<h3 id="ternary-operator">Ternary Operator</h3>
+
+<p>The intent of the ternary operator, <code>?</code> , is to increase clarity or code neatness. The ternary SHOULD only evaluate a single condition per expression. Evaluating multiple conditions is usually more understandable as an if statement or refactored into named variables.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">result = a &gt; b ? x : y;<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">result = a &gt; b ? x = c &gt; d ? c : d : y;<br></code></pre>
+
+
+
+<h2 id="error-handling">Error Handling</h2>
+
+<p>When methods return an error parameter by reference, code MUST switch on the returned value and MUST NOT switch on the error variable.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-built_in">NSError</span> *error;<br><span class="hljs-keyword">if</span> (![<span class="hljs-keyword">self</span> trySomethingWithError:&amp;error]) {<br>    <span class="hljs-comment">// Handle Error</span><br>}<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-built_in">NSError</span> *error;<br>[<span class="hljs-keyword">self</span> trySomethingWithError:&amp;error];<br><span class="hljs-keyword">if</span> (error) {<br>    <span class="hljs-comment">// Handle Error</span><br>}<br></code></pre>
+
+<p>Some of Apple’s APIs write garbage values to the error parameter (if non-NULL) in successful cases, so switching on the error can cause false negatives (and subsequently crash).</p>
+
+
+
+<h2 id="methods">Methods</h2>
+
+<p>In method signatures, there SHOULD be a space after the scope (<code>-</code> or <code>+</code> symbol). There SHOULD be a space between the method segments.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">- (<span class="hljs-keyword">void</span>)setExampleText:(<span class="hljs-built_in">NSString</span> *)text image:(<span class="hljs-built_in">UIImage</span> *)image;<br></code></pre>
+
+
+
+<h2 id="variables">Variables</h2>
+
+<p>Variables SHOULD be named descriptively, with the variable’s name clearly communicating what the variable <em>is</em> and pertinent information a programmer needs to use that value properly.</p>
+
+<p><strong>For example:</strong></p>
+
+<ul><li><code>NSString *title</code>: It is reasonable to assume a “title” is a string.</li>
+<li><code>NSString *titleHTML</code>: This indicates a title that may contain HTML which needs parsing for display. <em>“HTML” is needed for a programmer to use this variable effectively.</em></li>
+<li><code>NSAttributedString *titleAttributedString</code>: A title, already formatted for display. <em><code>AttributedString</code> hints that this value is not just a vanilla title, and adding it could be a reasonable choice depending on context.</em></li>
+<li><code>NSDate *now</code>: <em>No further clarification is needed.</em></li>
+<li><code>NSDate *lastModifiedDate</code>: Simply <code>lastModified</code> can be ambiguous; depending on context, one could reasonably assume it is one of a few different types.</li>
+<li><code>NSURL *URL</code> vs. <code>NSString *URLString</code>: In situations when a value can reasonably be represented by different classes, it is often useful to disambiguate in the variable’s name.</li>
+<li><code>NSString *releaseDateString</code>: Another example where a value could be represented by another class, and the name can help disambiguate.</li>
+</ul>
+
+<p>Single letter variable names are NOT RECOMMENDED, except as simple counter variables in loops.</p>
+
+<p>Asterisks indicating a type is a pointer MUST be “attached to” the variable name. <strong>For example,</strong> <code>NSString *text</code> <strong>not</strong> <code>NSString* text</code> or <code>NSString * text</code>, except in the case of constants (<code>NSString * const NYTConstantString</code>).</p>
+
+<p>Property definitions SHOULD be used in place of naked instance variables whenever possible. Direct instance variable access SHOULD be avoided except in initializer methods (<code>init</code>, <code>initWithCoder:</code>, etc…), <code>dealloc</code> methods and within custom setters and getters. For more information, see <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmPractical.html#//apple_ref/doc/uid/TP40004447-SW6" target="_blank">Apple’s docs on using accessor methods in initializer methods and <code>dealloc</code></a>.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">@(markdown笔记)interface NYTSection: <span class="hljs-built_in">NSObject</span><br><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>) <span class="hljs-built_in">NSString</span> *headline;<br><br><span class="hljs-keyword">@end</span><br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">NYTSection</span> : <span class="hljs-title">NSObject</span> </span>{<br>    <span class="hljs-built_in">NSString</span> *headline;<br>}<br></code></pre>
+
+
+
+<h4 id="variable-qualifiers">Variable Qualifiers</h4>
+
+<p>When it comes to the variable qualifiers <a href="https://developer.apple.com/library/ios/releasenotes/objectivec/rn-transitioningtoarc/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011226-CH1-SW4" target="_blank">introduced with ARC</a>, the qualifier (<code>__strong</code>, <code>__weak</code>, <code>__unsafe_unretained</code>, <code>__autoreleasing</code>) SHOULD be placed between the asterisks and the variable name, e.g., <code>NSString * __weak text</code>. </p>
+
+
+
+<h2 id="naming">Naming</h2>
+
+<p>Apple naming conventions SHOULD be adhered to wherever possible, especially those related to <a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html" target="_blank">memory management rules</a> (<a href="http://stackoverflow.com/a/2865194/340508" target="_blank">NARC</a>).</p>
+
+<p>Long, descriptive method and variable names are good.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-built_in">UIButton</span> *settingsButton;<br></code></pre>
+
+<p><strong>Not</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-built_in">UIButton</span> *setBut;<br></code></pre>
+
+<p>A three letter prefix (e.g., <code>NYT</code>) MUST be used for class names and constants, however MAY be omitted for Core Data entity names. Constants MUST be camel-case with all words capitalized and prefixed by the related class name for clarity. A two letter prefix (e.g., <code>NS</code>) is <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/DefiningClasses/DefiningClasses.html#//apple_ref/doc/uid/TP40011210-CH3-SW12" target="_blank">reserved for use by Apple</a>.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">NSTimeInterval</span> NYTArticleViewControllerNavigationFadeAnimationDuration = <span class="hljs-number">0.3</span>;<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">NSTimeInterval</span> fadetime = <span class="hljs-number">1.7</span>;<br></code></pre>
+
+<p>Properties and local variables MUST be camel-case with the leading word being lowercase.</p>
+
+<p>Instance variables MUST be camel-case with the leading word being lowercase, and MUST be prefixed with an underscore. This is consistent with instance variables synthesized automatically by LLVM. <strong>If LLVM can synthesize the variable automatically, then let it.</strong></p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">@synthesize</span> descriptiveVariableName = _descriptiveVariableName;<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">id</span> varnm;<br></code></pre>
+
+
+
+<h3 id="categories">Categories</h3>
+
+<p>Categories are RECOMMENDED to concisely segment functionality and should be named to describe that functionality.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">UIViewController</span> (<span class="hljs-title">NYTMediaPlaying</span>)</span><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">NSString</span> (<span class="hljs-title">NSStringEncodingDetection</span>)</span><br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">NYTAdvertisement</span> (<span class="hljs-title">private</span>)</span><br><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">NSString</span> (<span class="hljs-title">NYTAdditions</span>)</span><br></code></pre>
+
+<p>Methods and properties added in categories MUST be named with an app- or organization-specific prefix. This avoids unintentionally overriding an existing method, and it reduces the chance of two categories from different libraries adding a method of the same name. (The Objective-C runtime doesn’t specify which method will be called in the latter case, which can lead to unintended effects.)</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">NSArray</span> (<span class="hljs-title">NYTAccessors</span>)</span><br>- (<span class="hljs-keyword">id</span>)nyt_objectOrNilAtIndex:(<span class="hljs-built_in">NSUInteger</span>)index;<br><span class="hljs-keyword">@end</span><br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">NSArray</span> (<span class="hljs-title">NYTAccessors</span>)</span><br>- (<span class="hljs-keyword">id</span>)objectOrNilAtIndex:(<span class="hljs-built_in">NSUInteger</span>)index;<br><span class="hljs-keyword">@end</span><br></code></pre>
+
+
+
+<h2 id="comments">Comments</h2>
+
+<p>When they are needed, comments SHOULD be used to explain <strong>why</strong> a particular piece of code does something. Any comments that are used MUST be kept up-to-date or deleted.</p>
+
+<p>Block comments are NOT RECOMMENDED, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. This does not apply to those comments used to generate documentation.</p>
+
+
+
+<h2 id="init-and-dealloc">init and dealloc</h2>
+
+<p><code>dealloc</code> methods SHOULD be placed at the top of the implementation, directly after the <code>@synthesize</code> and <code>@dynamic</code> statements. <code>init</code> methods SHOULD be placed directly below the <code>dealloc</code> methods of any class.</p>
+
+<p><code>init</code> methods should be structured like this:</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">- (instancetype)init {<br>    <span class="hljs-keyword">self</span> = [<span class="hljs-keyword">super</span> init]; <span class="hljs-comment">// or call the designated initializer</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span>) {<br>        <span class="hljs-comment">// Custom initialization</span><br>    }<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">self</span>;<br>}<br></code></pre>
+
+
+
+<h2 id="literals">Literals</h2>
+
+<p><code>NSString</code>, <code>NSDictionary</code>, <code>NSArray</code>, and <code>NSNumber</code> literals SHOULD be used whenever creating immutable instances of those objects. Pay special care that <code>nil</code> values not be passed into <code>NSArray</code> and <code>NSDictionary</code> literals, as this will cause a crash.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-built_in">NSArray</span> *names = @[<span class="hljs-string">@"Brian"</span>, <span class="hljs-string">@"Matt"</span>, <span class="hljs-string">@"Chris"</span>, <span class="hljs-string">@"Alex"</span>, <span class="hljs-string">@"Steve"</span>, <span class="hljs-string">@"Paul"</span>];<br><span class="hljs-built_in">NSDictionary</span> *productManagers = @{<span class="hljs-string">@"iPhone"</span> : <span class="hljs-string">@"Kate"</span>, <span class="hljs-string">@"iPad"</span> : <span class="hljs-string">@"Kamal"</span>, <span class="hljs-string">@"Mobile Web"</span> : <span class="hljs-string">@"Bill"</span>};<br><span class="hljs-built_in">NSNumber</span> *shouldUseLiterals = @YES;<br><span class="hljs-built_in">NSNumber</span> *buildingZIPCode = @<span class="hljs-number">10018</span>;<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-built_in">NSArray</span> *names = [<span class="hljs-built_in">NSArray</span> arrayWithObjects:<span class="hljs-string">@"Brian"</span>, <span class="hljs-string">@"Matt"</span>, <span class="hljs-string">@"Chris"</span>, <span class="hljs-string">@"Alex"</span>, <span class="hljs-string">@"Steve"</span>, <span class="hljs-string">@"Paul"</span>, <span class="hljs-literal">nil</span>];<br><span class="hljs-built_in">NSDictionary</span> *productManagers = [<span class="hljs-built_in">NSDictionary</span> dictionaryWithObjectsAndKeys: <span class="hljs-string">@"Kate"</span>, <span class="hljs-string">@"iPhone"</span>, <span class="hljs-string">@"Kamal"</span>, <span class="hljs-string">@"iPad"</span>, <span class="hljs-string">@"Bill"</span>, <span class="hljs-string">@"Mobile Web"</span>, <span class="hljs-literal">nil</span>];<br><span class="hljs-built_in">NSNumber</span> *shouldUseLiterals = [<span class="hljs-built_in">NSNumber</span> numberWithBool:<span class="hljs-literal">YES</span>];<br><span class="hljs-built_in">NSNumber</span> *buildingZIPCode = [<span class="hljs-built_in">NSNumber</span> numberWithInteger:<span class="hljs-number">10018</span>];<br></code></pre>
+
+
+
+<h2 id="cgrect-functions"><code>CGRect</code> Functions</h2>
+
+<p>When accessing the <code>x</code>, <code>y</code>, <code>width</code>, or <code>height</code> of a <code>CGRect</code>, code MUST use the <a href="http://developer.apple.com/library/ios/#documentation/graphicsimaging/reference/CGGeometry/Reference/reference.html" target="_blank"><code>CGGeometry</code> functions</a> instead of direct struct member access. From Apple’s <code>CGGeometry</code> reference:</p>
+
+<blockquote>
+  <p>All functions described in this reference that take CGRect data structures as inputs implicitly standardize those rectangles before calculating their results. For this reason, your applications should avoid directly reading and writing the data stored in the CGRect data structure. Instead, use the functions described here to manipulate rectangles and to retrieve their characteristics.</p>
+</blockquote>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-built_in">CGRect</span> frame = <span class="hljs-keyword">self</span><span class="hljs-variable">.view</span><span class="hljs-variable">.frame</span>;<br><br><span class="hljs-built_in">CGFloat</span> x = <span class="hljs-built_in">CGRectGetMinX</span>(frame);<br><span class="hljs-built_in">CGFloat</span> y = <span class="hljs-built_in">CGRectGetMinY</span>(frame);<br><span class="hljs-built_in">CGFloat</span> width = <span class="hljs-built_in">CGRectGetWidth</span>(frame);<br><span class="hljs-built_in">CGFloat</span> height = <span class="hljs-built_in">CGRectGetHeight</span>(frame);<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-built_in">CGRect</span> frame = <span class="hljs-keyword">self</span><span class="hljs-variable">.view</span><span class="hljs-variable">.frame</span>;<br><br><span class="hljs-built_in">CGFloat</span> x = frame<span class="hljs-variable">.origin</span><span class="hljs-variable">.x</span>;<br><span class="hljs-built_in">CGFloat</span> y = frame<span class="hljs-variable">.origin</span><span class="hljs-variable">.y</span>;<br><span class="hljs-built_in">CGFloat</span> width = frame<span class="hljs-variable">.size</span><span class="hljs-variable">.width</span>;<br><span class="hljs-built_in">CGFloat</span> height = frame<span class="hljs-variable">.size</span><span class="hljs-variable">.height</span>;<br></code></pre>
+
+
+
+<h2 id="constants">Constants</h2>
+
+<p>Constants are RECOMMENDED over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants MUST be declared as <code>static</code> constants. Constants MAY be declared as <code>#define</code> when explicitly being used as a macro.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">static</span> <span class="hljs-built_in">NSString</span> * <span class="hljs-keyword">const</span> NYTAboutViewControllerCompanyName = <span class="hljs-string">@"The New York Times Company"</span>;<br><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">CGFloat</span> NYTImageThumbnailHeight = <span class="hljs-number">50.0</span>;<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-preprocessor">#define CompanyName @<span class="hljs-title">"The New York Times Company"</span></span><br><br><span class="hljs-preprocessor">#define thumbnailHeight 2</span><br></code></pre>
+
+
+
+<h2 id="enumerated-types">Enumerated Types</h2>
+
+<p>When using <code>enum</code>s, the new fixed underlying type specification MUST be used; it provides stronger type checking and code completion. The SDK includes a macro to facilitate and encourage use of fixed underlying types: <code>NS_ENUM()</code>.</p>
+
+<p><strong>Example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">NS_ENUM</span>(<span class="hljs-built_in">NSInteger</span>, NYTAdRequestState) {<br>    NYTAdRequestStateInactive,<br>    NYTAdRequestStateLoading<br>};<br></code></pre>
+
+
+
+<h2 id="bitmasks">Bitmasks</h2>
+
+<p>When working with bitmasks, the <code>NS_OPTIONS</code> macro MUST be used.</p>
+
+<p><strong>Example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">NS_OPTIONS</span>(<span class="hljs-built_in">NSUInteger</span>, NYTAdCategory) {<br>    NYTAdCategoryAutos      = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">0</span>,<br>    NYTAdCategoryJobs       = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">1</span>,<br>    NYTAdCategoryRealState  = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">2</span>,<br>    NYTAdCategoryTechnology = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">3</span><br>};<br></code></pre>
+
+
+
+<h2 id="private-properties">Private Properties</h2>
+
+<p>Private properties SHALL be declared in class extensions (anonymous categories) in the implementation file of a class.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">NYTAdvertisement</span> ()</span><br><br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>) GADBannerView *googleAdView;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>) ADBannerView *iAdView;<br><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">nonatomic</span>, <span class="hljs-keyword">strong</span>) <span class="hljs-built_in">UIWebView</span> *adXWebView;<br><br><span class="hljs-keyword">@end</span><br></code></pre>
+
+
+
+<h2 id="image-naming">Image Naming</h2>
+
+<p>Image names should be named consistently to preserve organization and developer sanity. Images SHOULD be named as one camel case string with a description of their purpose, followed by the un-prefixed name of the class or property they are customizing (if there is one), followed by a further description of color and/or placement, and finally their state.</p>
+
+<p><strong>For example:</strong></p>
+
+<ul><li><code>RefreshBarButtonItem</code> / <code>RefreshBarButtonItem@2x</code> and <code>RefreshBarButtonItemSelected</code> / <code>RefreshBarButtonItemSelected@2x</code></li>
+<li><code>ArticleNavigationBarWhite</code> / <code>ArticleNavigationBarWhite@2x</code> and <code>ArticleNavigationBarBlackSelected</code> / <code>ArticleNavigationBarBlackSelected@2x</code>.</li>
+</ul>
+
+<p>Images that are used for a similar purpose SHOULD be grouped in respective groups in an Images folder or Asset Catalog.</p>
+
+
+
+<h2 id="booleans">Booleans</h2>
+
+<p>Values MUST NOT be compared directly to <code>YES</code>, because <code>YES</code> is defined as <code>1</code>, and a <code>BOOL</code> in Objective-C is a <code>CHAR</code> type that is 8 bits long (so a value of <code>11111110</code> will return <code>NO</code> if compared to <code>YES</code>).</p>
+
+<p><strong>For an object pointer:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">if</span> (!someObject) {<br>}<br><br><span class="hljs-keyword">if</span> (someObject == <span class="hljs-literal">nil</span>) {<br>}<br></code></pre>
+
+<p><strong>For a <code>BOOL</code> value:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">if</span> (isAwesome)<br><span class="hljs-keyword">if</span> (!someNumber<span class="hljs-variable">.boolValue</span>)<br><span class="hljs-keyword">if</span> (someNumber<span class="hljs-variable">.boolValue</span> == <span class="hljs-literal">NO</span>)<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">if</span> (isAwesome == <span class="hljs-literal">YES</span>) <span class="hljs-comment">// Never do this.</span><br></code></pre>
+
+<p>If the name of a <code>BOOL</code> property is expressed as an adjective, the property’s name MAY omit the <code>is</code> prefix but should specify the conventional name for the getter.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-keyword">@property</span> (<span class="hljs-keyword">assign</span>, getter=isEditable) <span class="hljs-built_in">BOOL</span> editable;<br></code></pre>
+
+<p><em>Text and example taken from the <a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/Articles/NamingIvarsAndTypes.html#//apple_ref/doc/uid/20001284-BAJGIIJE" target="_blank">Cocoa Naming Guidelines</a>.</em></p>
+
+
+
+<h2 id="singletons">Singletons</h2>
+
+<p>Singleton objects SHOULD use a thread-safe pattern for creating their shared instance.</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">+ (instancetype)sharedInstance {<br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">id</span> sharedInstance = <span class="hljs-literal">nil</span>;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-built_in">dispatch_once_t</span> onceToken;<br>    <span class="hljs-built_in">dispatch_once</span>(&amp;onceToken, ^{<br>        sharedInstance = [[[<span class="hljs-keyword">self</span> class] alloc] init];<br>    });<br><br>    <span class="hljs-keyword">return</span> sharedInstance;<br>}<br></code></pre>
+
+<p>This will prevent <a href="http://cocoasamurai.blogspot.com/2011/04/singletons-your-doing-them-wrong.html" target="_blank">possible and sometimes frequent crashes</a>.</p>
+
+
+
+<h2 id="imports">Imports</h2>
+
+<p>If there is more than one import statement, statements MUST be grouped <a href="http://ashfurrow.com/blog/structuring-modern-objective-c" target="_blank">together</a>. Groups MAY be commented.</p>
+
+<p>Note: For modules use the <a href="http://clang.llvm.org/docs/Modules.html#using-modules" target="_blank">@import</a> syntax.</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec"><span class="hljs-comment">// Frameworks</span><br>@import QuartzCore;<br><br><span class="hljs-comment">// Models</span><br><span class="hljs-preprocessor">#import <span class="hljs-title">"NYTUser.h"</span></span><br><br><span class="hljs-comment">// Views</span><br><span class="hljs-preprocessor">#import <span class="hljs-title">"NYTButton.h"</span></span><br><span class="hljs-preprocessor">#import <span class="hljs-title">"NYTUserView.h"</span></span><br></code></pre>
+
+
+
+<h2 id="protocols">Protocols</h2>
+
+<p>In a <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/DelegatesandDataSources/DelegatesandDataSources.html" target="_blank">delegate or data source protocol</a>, the first parameter to each method SHOULD be the object sending the message.</p>
+
+<p>This helps disambiguate in cases when an object is the delegate for multiple similarly-typed objects, and it helps clarify intent to readers of a class implementing these delegate methods.</p>
+
+<p><strong>For example:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">- (<span class="hljs-keyword">void</span>)tableView:(<span class="hljs-built_in">UITableView</span> *)tableView didSelectRowAtIndexPath:(<span class="hljs-built_in">NSIndexPath</span> *)indexPath;<br></code></pre>
+
+<p><strong>Not:</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-objc hljs objectivec">- (<span class="hljs-keyword">void</span>)didSelectTableRowAtIndexPath:(<span class="hljs-built_in">NSIndexPath</span> *)indexPath;<br></code></pre>
+
+
+
+<h2 id="xcode-project">Xcode project</h2>
+
+<p>The physical files SHOULD be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created SHOULD be reflected by folders in the filesystem. Code SHOULD be grouped not only by type, but also by feature for greater clarity.</p>
+
+<p>Target Build Setting “Treat Warnings as Errors” SHOULD be enabled. Enable as many <a href="http://boredzo.org/blog/archives/2009-11-07/warnings" target="_blank">additional warnings</a> as possible. If you need to ignore a specific warning, use <a href="http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas" target="_blank">Clang’s pragma feature</a>.</p>
+
+
+
+<h1 id="other-objective-c-style-guides">Other Objective-C Style Guides</h1>
+
+<p>If ours doesn’t fit your tastes, have a look at some other style guides:</p>
+
+<ul><li><a href="http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml" target="_blank">Google</a></li>
+<li><a href="https://github.com/github/objective-c-style-guide" target="_blank">GitHub</a></li>
+<li><a href="https://trac.adium.im/wiki/CodingStyle" target="_blank">Adium</a></li>
+<li><a href="https://gist.github.com/soffes/812796" target="_blank">Sam Soffes</a></li>
+<li><a href="http://cocoadevcentral.com/articles/000082.php" target="_blank">CocoaDevCentral</a></li>
+<li><a href="http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/" target="_blank">Luke Redpath</a></li>
+<li><a href="http://www.cimgf.com/zds-code-style-guide/" target="_blank">Marcus Zarra</a></li>
+<li><a href="https://www.mediawiki.org/wiki/Wikimedia_Apps/Team/iOS/ObjectiveCStyleGuide" target="_blank">Wikimedia</a></li>
+</ul></div></body></html>
